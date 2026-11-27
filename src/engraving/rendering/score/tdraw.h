@@ -174,6 +174,7 @@ class Tuplet;
 
 class VibratoSegment;
 class Vibrato;
+class BowPressureSegment;
 class Volta;
 class VoltaSegment;
 
@@ -322,6 +323,7 @@ private:
     static void draw(const Tuplet* item, muse::draw::Painter* painter, const PaintOptions& opt);
 
     static void draw(const VibratoSegment* item, muse::draw::Painter* painter, const PaintOptions& opt);
+    static void draw(const BowPressureSegment* item, muse::draw::Painter* painter, const PaintOptions& opt);
     static void draw(const VoltaSegment* item, muse::draw::Painter* painter, const PaintOptions& opt);
 
     static void draw(const WhammyBarSegment* item, muse::draw::Painter* painter, const PaintOptions& opt);

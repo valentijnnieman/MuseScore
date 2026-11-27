@@ -155,6 +155,7 @@
 #include "dom/tuplet.h"
 
 #include "dom/vibrato.h"
+#include "dom/bowpressure.h"
 #include "dom/volta.h"
 
 #include "dom/whammybar.h"
@@ -512,7 +513,11 @@ void TLayout::layoutItem(EngravingItem* item, LayoutContext& ctx)
         break;
     case ElementType::VIBRATO:          layoutVibrato(item_cast<Vibrato*>(item), ctx);
         break;
+    case ElementType::BOW_PRESSURE:     layoutBowPressure(item_cast<BowPressure*>(item), ctx);
+        break;
     case ElementType::VIBRATO_SEGMENT:  layoutVibratoSegment(item_cast<VibratoSegment*>(item), ctx);
+        break;
+    case ElementType::BOW_PRESSURE_SEGMENT: layoutBowPressureSegment(item_cast<BowPressureSegment*>(item), ctx);
         break;
     case ElementType::VOLTA:            layoutVolta(item_cast<Volta*>(item), ctx);
         break;
@@ -6816,6 +6821,85 @@ void TLayout::layoutVibratoSegment(VibratoSegment* item, LayoutContext&)
     }
 
     Autoplace::autoplaceSpannerSegment(item, ldata);
+}
+
+// Thickness of a bow pressure triangle at `fraction` (0..1) of the spanner's duration:
+// 0 at both ends, `apexHeight` at the midpoint, linear in between.
+static double bowPressureThicknessAt(double fraction, double apexHeight)
+{
+    const double f = std::clamp(fraction, 0.0, 1.0);
+    return apexHeight * (1.0 - std::abs(2.0 * f - 1.0));
+}
+
+PolygonF TLayout::bowPressureTriangle(double width, double apexHeight, double startFraction, double endFraction, bool apexDown)
+{
+    // the base lies on the far side from the staff; the triangle grows from it towards y = 0
+    const double baseY = apexDown ? -apexHeight : apexHeight;
+    const double dir = apexDown ? 1.0 : -1.0;
+    const double f1 = std::clamp(startFraction, 0.0, 1.0);
+    const double f2 = std::clamp(endFraction, f1, 1.0);
+
+    PolygonF poly;
+    poly << PointF(0.0, baseY)
+         << PointF(width, baseY)
+         << PointF(width, baseY + dir * bowPressureThicknessAt(f2, apexHeight));
+
+    // the apex lies on this segment
+    if (f1 < 0.5 && f2 > 0.5) {
+        const double apexX = width * (0.5 - f1) / (f2 - f1);
+        poly << PointF(apexX, baseY + dir * apexHeight);
+    }
+
+    poly << PointF(0.0, baseY + dir * bowPressureThicknessAt(f1, apexHeight));
+    return poly;
+}
+
+void TLayout::layoutBowPressureSegment(BowPressureSegment* item, LayoutContext&)
+{
+    LAYOUT_CALL_ITEM(item);
+    BowPressureSegment::LayoutData* ldata = item->mutldata();
+    const BowPressure* bowPressure = item->bowPressure();
+    const bool below = bowPressure->placeBelow();
+
+    if (item->staff()) {
+        ldata->setMag(item->staff()->staffMag(item->tick()));
+    }
+    if (below) {
+        ldata->setPosY(item->staff() ? item->staff()->staffHeight(item->tick()) : 0.0);
+    }
+    ldata->move(item->defaultPos());
+    ldata->moveY(item->staffOffsetY());
+
+    // Which part of the spanner's duration does this segment cover?
+    // Computed from ticks, because later systems are not laid out yet,
+    // and so that both sides of a system break agree on the thickness there.
+    double startFraction = 0.0;
+    double endFraction = 1.0;
+    const System* system = item->system();
+    const Fraction duration = bowPressure->ticks();
+    if (system && system->firstMeasure() && system->lastMeasure() && duration > Fraction(0, 1)) {
+        auto fractionAt = [bowPressure, duration](const Fraction& tick) {
+            return ((tick - bowPressure->tick()) / duration).toDouble();
+        };
+        if (!item->isSingleBeginType()) {
+            startFraction = fractionAt(system->firstMeasure()->tick());
+        }
+        if (!item->isSingleEndType()) {
+            endFraction = fractionAt(system->lastMeasure()->endTick());
+        }
+    }
+
+    const double apexHeight = bowPressure->height().val() * item->spatium();
+    ldata->triangle = bowPressureTriangle(item->pos2().x(), apexHeight, startFraction, endFraction, !below);
+    ldata->setBbox(ldata->triangle.boundingRect());
+
+    Autoplace::autoplaceSpannerSegment(item, ldata);
+}
+
+void TLayout::layoutBowPressure(BowPressure* item, LayoutContext& ctx)
+{
+    LAYOUT_CALL_ITEM(item);
+    layoutLine(static_cast<SLine*>(item), ctx);
 }
 
 void TLayout::layoutVibrato(Vibrato* item, LayoutContext& ctx)

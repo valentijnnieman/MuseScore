@@ -160,6 +160,7 @@
 #include "dom/tuplet.h"
 
 #include "dom/vibrato.h"
+#include "dom/bowpressure.h"
 #include "dom/volta.h"
 
 #include "dom/whammybar.h"
@@ -424,6 +425,8 @@ void TDraw::drawItem(const EngravingItem* item, Painter* painter, const PaintOpt
         break;
 
     case ElementType::VIBRATO_SEGMENT:      draw(item_cast<const VibratoSegment*>(item), painter, opt);
+        break;
+    case ElementType::BOW_PRESSURE_SEGMENT: draw(item_cast<const BowPressureSegment*>(item), painter, opt);
         break;
     case ElementType::VOLTA_SEGMENT:        draw(item_cast<const VoltaSegment*>(item), painter, opt);
         break;
@@ -3559,6 +3562,14 @@ void TDraw::draw(const Tuplet* item, Painter* painter, const PaintOptions& opt)
             painter->drawPolyline(item->bracketR, 3);
         }
     }
+}
+
+void TDraw::draw(const BowPressureSegment* item, Painter* painter, const PaintOptions& opt)
+{
+    TRACE_DRAW_ITEM;
+    painter->setBrush(Brush(item->spanner()->curColor(opt)));
+    painter->setNoPen();
+    painter->drawConvexPolygon(item->ldata()->triangle);
 }
 
 void TDraw::draw(const VibratoSegment* item, Painter* painter, const PaintOptions& opt)

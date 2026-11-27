@@ -197,6 +197,8 @@ class Tuplet;
 
 class VibratoSegment;
 class Vibrato;
+class BowPressureSegment;
+class BowPressure;
 class Volta;
 class VoltaSegment;
 
@@ -379,6 +381,14 @@ public:
 
     static void layoutVibrato(Vibrato* item, LayoutContext& ctx);
     static void layoutVibratoSegment(VibratoSegment* item, LayoutContext& ctx);
+    static void layoutBowPressure(BowPressure* item, LayoutContext& ctx);
+    static void layoutBowPressureSegment(BowPressureSegment* item, LayoutContext& ctx);
+    // The part of a bow pressure triangle that lies on one segment: a segment of `width`
+    // covering the spanner's duration from `startFraction` to `endFraction`.
+    // The apex points towards y = 0 (the staff side) and the flat base lies
+    // `apexHeight` away from it: above y = 0 if `apexDown` is set (for marks
+    // above the staff), below y = 0 otherwise (for marks below the staff).
+    static PolygonF bowPressureTriangle(double width, double apexHeight, double startFraction, double endFraction, bool apexDown);
     static void layoutVolta(Volta* item, LayoutContext& ctx);
     static void layoutVoltaSegment(VoltaSegment* item, LayoutContext& ctx);
 

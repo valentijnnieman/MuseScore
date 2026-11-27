@@ -99,6 +99,7 @@
 #include "dom/tremolotwochord.h"
 #include "dom/trill.h"
 #include "dom/vibrato.h"
+#include "dom/bowpressure.h"
 #include "dom/volta.h"
 #include "dom/whammybar.h"
 
@@ -255,6 +256,8 @@ void SingleLayout::layoutItem(EngravingItem* item)
         break;
     case ElementType::VIBRATO:      layout(toVibrato(item), ctx);
         break;
+    case ElementType::BOW_PRESSURE: layout(toBowPressure(item), ctx);
+        break;
     case ElementType::VOLTA:        layout(toVolta(item), ctx);
         break;
     case ElementType::WHAMMY_BAR:   layout(toWhammyBar(item), ctx);
@@ -294,6 +297,8 @@ void SingleLayout::layoutLineSegment(LineSegment* item, const Context& ctx)
     case ElementType::TRILL_SEGMENT:     layout(toTrillSegment(item), ctx);
         break;
     case ElementType::VIBRATO_SEGMENT:   layout(toVibratoSegment(item), ctx);
+        break;
+    case ElementType::BOW_PRESSURE_SEGMENT: layout(toBowPressureSegment(item), ctx);
         break;
     case ElementType::VOLTA_SEGMENT:     layout(toVoltaSegment(item), ctx);
         break;
@@ -1911,6 +1916,21 @@ void SingleLayout::layout(TrillSegment* item, const Context& ctx)
         item->symbolLine(SymId::wiggleTrill, SymId::wiggleTrill);
     }
 
+    item->setOffset(PointF());
+}
+
+void SingleLayout::layout(BowPressure* item, const Context& ctx)
+{
+    layoutLine(static_cast<SLine*>(item), ctx);
+}
+
+void SingleLayout::layout(BowPressureSegment* item, const Context&)
+{
+    // In the palette there is no system or tick range: draw the whole triangle
+    BowPressureSegment::LayoutData* ldata = item->mutldata();
+    const double apexHeight = item->bowPressure()->height().val() * item->spatium();
+    ldata->triangle = TLayout::bowPressureTriangle(item->pos2().x(), apexHeight, 0.0, 1.0, true);
+    ldata->setBbox(ldata->triangle.boundingRect());
     item->setOffset(PointF());
 }
 

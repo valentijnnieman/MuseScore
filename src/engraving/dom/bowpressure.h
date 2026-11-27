@@ -45,6 +45,11 @@ public:
     BowPressure* bowPressure() const { return toBowPressure(spanner()); }
 
     PropertyDelegate resolvePropertyDelegate(Pid) const override;
+
+    struct LayoutData : public EngravingItem::LayoutData {
+        PolygonF triangle;
+    };
+    DECLARE_LAYOUTDATA_METHODS(BowPressureSegment)
 };
 
 //---------------------------------------------------------
