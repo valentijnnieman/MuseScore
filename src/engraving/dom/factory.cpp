@@ -124,6 +124,7 @@
 #include "tripletfeel.h"
 #include "tuplet.h"
 #include "vibrato.h"
+#include "bowpressure.h"
 #include "volta.h"
 #include "whammybar.h"
 
@@ -181,6 +182,7 @@ EngravingItem* Factory::doCreateItem(ElementType type, DummyParentOr<EngravingIt
     case ElementType::LET_RING:          return new LetRing(dummy);
     case ElementType::GRADUAL_TEMPO_CHANGE: return new GradualTempoChange(dummy);
     case ElementType::VIBRATO:           return new Vibrato(dummy);
+    case ElementType::BOW_PRESSURE:      return new BowPressure(dummy);
     case ElementType::PALM_MUTE:         return new PalmMute(dummy);
     case ElementType::WHAMMY_BAR:        return new WhammyBar(dummy);
     case ElementType::RASGUEADO:         return new Rasgueado(dummy);
@@ -299,6 +301,7 @@ EngravingItem* Factory::doCreateItem(ElementType type, DummyParentOr<EngravingIt
     case ElementType::LET_RING_SEGMENT:
     case ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT:
     case ElementType::VIBRATO_SEGMENT:
+    case ElementType::BOW_PRESSURE_SEGMENT:
     case ElementType::PALM_MUTE_SEGMENT:
     case ElementType::WHAMMY_BAR_SEGMENT:
     case ElementType::RASGUEADO_SEGMENT:
@@ -696,6 +699,7 @@ TripletFeel* Factory::createTripletFeel(DummyParentOr<Segment> parent, TripletFe
 }
 
 CREATE_ITEM_IMPL(Vibrato, DummyParent*)
+CREATE_ITEM_IMPL(BowPressure, DummyParent*)
 
 CREATE_ITEM_IMPL(TextLine, DummyParentOr<Note>)
 MAKE_ITEM_IMPL(TextLine, DummyParentOr<Note>);

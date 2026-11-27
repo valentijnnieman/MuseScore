@@ -377,6 +377,8 @@ set(DOM_SRC
     ${CMAKE_CURRENT_LIST_DIR}/utils.h
     ${CMAKE_CURRENT_LIST_DIR}/vibrato.cpp
     ${CMAKE_CURRENT_LIST_DIR}/vibrato.h
+    ${CMAKE_CURRENT_LIST_DIR}/bowpressure.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/bowpressure.h
     ${CMAKE_CURRENT_LIST_DIR}/volta.cpp
     ${CMAKE_CURRENT_LIST_DIR}/volta.h
     ${CMAKE_CURRENT_LIST_DIR}/whammybar.cpp

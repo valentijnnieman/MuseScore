@@ -179,6 +179,7 @@ class TremoloBar;
 class Trill;
 class Tuplet;
 class Vibrato;
+class BowPressure;
 class Volta;
 }
 
@@ -336,6 +337,7 @@ public:
     static void read(Trill* t, XmlReader& xml, ReadContext& ctx);
     static void read(Tuplet* t, XmlReader& xml, ReadContext& ctx);
     static void read(Vibrato* v, XmlReader& xml, ReadContext& ctx);
+    static void read(BowPressure* b, XmlReader& xml, ReadContext& ctx);
     static void read(Volta* v, XmlReader& xml, ReadContext& ctx);
 
     // compat

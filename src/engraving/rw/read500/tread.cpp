@@ -139,6 +139,7 @@
 #include "../../dom/trill.h"
 #include "../../dom/tuplet.h"
 #include "../../dom/vibrato.h"
+#include "../../dom/bowpressure.h"
 #include "../../dom/volta.h"
 #include "../../dom/whammybar.h"
 
@@ -348,6 +349,8 @@ void TRead::readItem(EngravingItem* item, XmlReader& xml, ReadContext& ctx)
     case ElementType::TUPLET: read(item_cast<Tuplet*>(item), xml, ctx);
         break;
     case ElementType::VIBRATO: read(item_cast<Vibrato*>(item), xml, ctx);
+        break;
+    case ElementType::BOW_PRESSURE: read(item_cast<BowPressure*>(item), xml, ctx);
         break;
     case ElementType::VOLTA: read(item_cast<Volta*>(item), xml, ctx);
         break;
@@ -4713,6 +4716,17 @@ void TRead::read(Trill* t, XmlReader& e, ReadContext& ctx)
         } else if (tag == "ornamentStyle") {
             readProperty(t, e, ctx, Pid::ORNAMENT_STYLE);
         } else if (!readProperties(static_cast<SLine*>(t), e, ctx)) {
+            e.unknown();
+        }
+    }
+}
+
+void TRead::read(BowPressure* b, XmlReader& e, ReadContext& ctx)
+{
+    b->eraseSpannerSegments();
+
+    while (e.readNextStartElement()) {
+        if (!readProperties(static_cast<SLine*>(b), e, ctx)) {
             e.unknown();
         }
     }

@@ -620,6 +620,8 @@ class EngravingItem : public apiv1::ScoreElement
     API_PROPERTY(hairpinHeight,           HAIRPIN_HEIGHT)
     /// For hairpins: The height of the hairpin when continuing onto a new system.
     API_PROPERTY(hairpinContHeight,       HAIRPIN_CONT_HEIGHT)
+    /// For bow pressure lines: The height of the triangle's apex.
+    API_PROPERTY(bowPressureHeight,       BOW_PRESSURE_HEIGHT)
     /// For hairpins: The velocity change.
     API_PROPERTY_T(int, veloChange,       VELO_CHANGE)
     /// The way a hairpin interpolates between values.

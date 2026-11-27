@@ -160,6 +160,7 @@
 #include "dom/tuplet.h"
 
 #include "dom/vibrato.h"
+#include "dom/bowpressure.h"
 #include "dom/volta.h"
 
 #include "dom/whammybar.h"
@@ -373,6 +374,8 @@ void TWrite::writeItem(const EngravingItem* item, XmlWriter& xml, WriteContext& 
     case ElementType::TUPLET:       write(item_cast<const Tuplet*>(item), xml, ctx);
         break;
     case ElementType::VIBRATO:      write(item_cast<const Vibrato*>(item), xml, ctx);
+        break;
+    case ElementType::BOW_PRESSURE: write(item_cast<const BowPressure*>(item), xml, ctx);
         break;
     case ElementType::VOLTA:        write(item_cast<const Volta*>(item), xml, ctx);
         break;
@@ -3521,6 +3524,16 @@ void TWrite::write(const Tuplet* item, XmlWriter& xml, WriteContext& ctx)
 
     writeStyledProperties(item, xml);
 
+    xml.endElement();
+}
+
+void TWrite::write(const BowPressure* item, XmlWriter& xml, WriteContext& ctx)
+{
+    if (!ctx.canWrite(item)) {
+        return;
+    }
+    xml.startElement(item);
+    writeProperties(static_cast<const SLine*>(item), xml, ctx);
     xml.endElement();
 }
 
