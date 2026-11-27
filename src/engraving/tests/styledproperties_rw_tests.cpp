@@ -175,7 +175,8 @@ TEST_P(Engraving_StyledPropertiesRWTests, eachPropertyWrittenOnce)
 // - GuitarBendHold: never written, it is regenerated during layout
 // Spanner segments aren't standalone elements either: they're only written inside their spanner.
 INSTANTIATE_TEST_SUITE_P(StyledPropertiesRW, Engraving_StyledPropertiesRWTests,
-                         ::testing::Values(ElementType::GRADUAL_TEMPO_CHANGE,
+                         ::testing::Values(ElementType::BOW_PRESSURE,
+                                           ElementType::GRADUAL_TEMPO_CHANGE,
                                            ElementType::HAIRPIN,
                                            ElementType::HARMONIC_MARK,
                                            ElementType::LET_RING,
