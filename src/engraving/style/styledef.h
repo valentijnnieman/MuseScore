@@ -408,6 +408,11 @@ enum class Sid : short {
     vibratoPosAbove,
     vibratoPosBelow,
 
+    bowPressurePlacement,
+    bowPressurePosAbove,
+    bowPressurePosBelow,
+    bowPressureHeight,
+
     harmonyFretDist,
     minHarmonyDistance,
     harmonyHarmonyDistance,
@@ -2084,6 +2089,7 @@ enum class Sid : short {
     systemTextLineMinDistance,
     trillMinDistance,
     vibratoMinDistance,
+    bowPressureMinDistance,
     voltaMinDistance,
     figuredBassMinDistance,
     tupletMinDistance,

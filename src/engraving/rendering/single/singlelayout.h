@@ -128,6 +128,8 @@ class TrillSegment;
 
 class Vibrato;
 class VibratoSegment;
+class BowPressure;
+class BowPressureSegment;
 class Volta;
 class VoltaSegment;
 }
@@ -242,6 +244,7 @@ public:
     static void layout(Trill* item, const Context& ctx);
 
     static void layout(Vibrato* item, const Context& ctx);
+    static void layout(BowPressure* item, const Context& ctx);
     static void layout(Volta* item, const Context& ctx);
     static void layout(WhammyBar* item, const Context& ctx);
 
@@ -257,6 +260,7 @@ private:
     static void layout(TextLineSegment* item, const Context& ctx);
     static void layout(TrillSegment* item, const Context& ctx);
     static void layout(VibratoSegment* item, const Context& ctx);
+    static void layout(BowPressureSegment* item, const Context& ctx);
     static void layout(VoltaSegment* item, const Context& ctx);
     static void layout(WhammyBarSegment* item, const Context& ctx);
 

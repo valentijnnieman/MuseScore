@@ -220,6 +220,8 @@ enum class ElementType : unsigned char {
     TAPPING_TEXT,
     JIANPU_OCTAVE_DOT,
     JIANPU_DURATION_LINE,
+    BOW_PRESSURE,
+    BOW_PRESSURE_SEGMENT,
 
     STAVE_SHARING_CHANGE,
 
@@ -259,6 +261,8 @@ constexpr bool autoplaceAppliesToType(ElementType type)
     case ElementType::GRADUAL_TEMPO_CHANGE_SEGMENT:
     case ElementType::VIBRATO:
     case ElementType::VIBRATO_SEGMENT:
+    case ElementType::BOW_PRESSURE:
+    case ElementType::BOW_PRESSURE_SEGMENT:
     case ElementType::PALM_MUTE:
     case ElementType::PALM_MUTE_SEGMENT:
     case ElementType::WHAMMY_BAR:

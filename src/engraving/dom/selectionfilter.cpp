@@ -142,6 +142,8 @@ bool SelectionFilter::canSelect(const EngravingItem* e) const
     case ElementType::TAPPING:
     case ElementType::VIBRATO:
     case ElementType::VIBRATO_SEGMENT:
+    case ElementType::BOW_PRESSURE:
+    case ElementType::BOW_PRESSURE_SEGMENT:
     case ElementType::FERMATA:
         return isFiltered(ElementsSelectionFilterTypes::ARTICULATION);
     case ElementType::ORNAMENT:

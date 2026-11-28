@@ -166,6 +166,7 @@ class Trill;
 class Tuplet;
 
 class Vibrato;
+class BowPressure;
 class Volta;
 
 class WhammyBar;
@@ -309,6 +310,7 @@ public:
     static void write(const Tuplet* item, XmlWriter& xml, WriteContext& ctx);
 
     static void write(const Vibrato* item, XmlWriter& xml, WriteContext& ctx);
+    static void write(const BowPressure* item, XmlWriter& xml, WriteContext& ctx);
     static void write(const Volta* item, XmlWriter& xml, WriteContext& ctx);
 
     static void write(const WhammyBar* item, XmlWriter& xml, WriteContext& ctx);

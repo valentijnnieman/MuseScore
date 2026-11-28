@@ -405,6 +405,11 @@ const std::array<StyleDef::StyleValue, size_t(Sid::STYLES)> StyleDef::styleValue
     styleDef(vibratoPosAbove,                            PointF(.0, -1)),
     styleDef(vibratoPosBelow,                            PointF(.0, 1)),
 
+    styleDef(bowPressurePlacement,                       PlacementV::ABOVE),
+    styleDef(bowPressurePosAbove,                        PointF(.0, -1.75)),
+    styleDef(bowPressurePosBelow,                        PointF(.0, 1.75)),
+    styleDef(bowPressureHeight,                          1.5_sp),
+
     styleDef(harmonyFretDist,                            1.0_sp),
     styleDef(minHarmonyDistance,                         0.5_sp),
     styleDef(harmonyHarmonyDistance,                     0.5_sp),
@@ -2076,6 +2081,7 @@ const std::array<StyleDef::StyleValue, size_t(Sid::STYLES)> StyleDef::styleValue
     styleDef(systemTextLineMinDistance,                  0.7_sp),
     styleDef(trillMinDistance,                           0.5_sp),
     styleDef(vibratoMinDistance,                         1.0_sp),
+    styleDef(bowPressureMinDistance,                     0.7_sp),
     styleDef(voltaMinDistance,                           1.0_sp),
     styleDef(figuredBassMinDistance,                     0.5_sp),
     styleDef(tupletMinDistance,                          0.5_sp),
